@@ -1,0 +1,42 @@
+@(message: String)
+
+@main(message){
+  <h1>trades</h1>
+}{
+   <li class="active"><a href="#">Home</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#contact">Contact</a></li>
+    <li class="dropdown">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <span class="caret"></span></a>
+      <ul class="dropdown-menu" role="menu">
+        <li><a href="#">Action</a></li>
+        <li><a href="#">Another action</a></li>
+        <li><a href="#">Something else here</a></li>
+        <li class="divider"></li>
+        <li class="dropdown-header">Nav header</li>
+        <li><a href="#">Separated link</a></li>
+        <li><a href="#">One more separated link</a></li>
+      </ul>
+    </li>
+}{
+
+  <div id="trades_placeholder">waiting for some trades to happen...</div>
+  <script type="text/javascript">
+
+  var placeholder = document.getElementById("trades_placeholder")
+  var pusher = new Pusher('de504dc5763aeef9ff52');
+  var trades_channel = pusher.subscribe('live_trades');
+  var i = 0;
+
+  trades_channel.bind('trade', function(data) {
+      if (i == 0) {
+          placeholder.innerHTML = '';
+      }
+      child = document.createElement("div");
+      child.innerHTML = data['id'] + ': ' + data['amount'] + ' BTC @@ ' + data['price'] + ' USD';
+      placeholder.appendChild(child);
+      i++;
+  });
+
+  </script>
+  }
