@@ -1,8 +1,6 @@
-@(message: String)
+@(message: String,data: String,ma:String)
 
 @main(message){
-  <h1>trades</h1>
-}{
    <li class="active"><a href="#">Home</a></li>
     <li><a href="#about">About</a></li>
     <li><a href="#contact">Contact</a></li>
@@ -20,7 +18,30 @@
     </li>
 }{
 
-  <div id="trades_placeholder">waiting for some trades to happen...</div>
+<div id="placeholder" style="width:600px;height:300px"></div>
+
+<script>
+var options = {
+    series: {
+        lines: { show: true, fill: false ,steps: false },
+        points: { show: false, fill: false }
+    },
+    xaxis : {
+      mode: "time",
+      timeformat:"%H:%M"
+    }
+};
+var dataTable = @data
+var timeInit = dataTable[dataTable.length -1][0]
+var currentTime = timeInit
+setInterval("currentTime = currentTime+1000;",1000)
+
+var dataFull = [{label:"foo",data:dataTable}]
+dataFull.push({label:"bar",data:@ma})
+$.plot($("#placeholder"), dataFull,options);
+</script>
+
+
   <script type="text/javascript">
 
   var placeholder = document.getElementById("trades_placeholder")
@@ -29,13 +50,10 @@
   var i = 0;
 
   trades_channel.bind('trade', function(data) {
-      if (i == 0) {
-          placeholder.innerHTML = '';
-      }
-      child = document.createElement("div");
-      child.innerHTML = data['id'] + ': ' + data['amount'] + ' BTC @@ ' + data['price'] + ' USD';
-      placeholder.appendChild(child);
-      i++;
+        dataTable.push([currentTime ,data['price']]);
+        console.log("added "+currentTime+" "+data['price'])
+        console.log(dataFull)
+        $.plot($("#placeholder"), dataFull,options);
   });
 
   </script>

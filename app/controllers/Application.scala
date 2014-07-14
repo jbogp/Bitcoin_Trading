@@ -2,7 +2,8 @@ package controllers
 
 import play.api._
 import play.api.mvc._
-import com.tindr.pusher.Pusher
+import models.Bitstamp
+import models.DBInteraction
 
 object Application extends Controller {
 
@@ -10,12 +11,22 @@ object Application extends Controller {
 		Ok(views.html.index("Mon premier changement"))
 	}
 
-	def trades = Action {
-		Ok(views.html.trades("Bitstamp live trades"))
+	def trades(unit:String,num:Int) = Action {
+		val effectNum:Int = num match{
+		  case 0 => unit match {
+		    case "minute" => 30
+		    case _ => 1
+		  }
+		  case _ => num
+		}
+		unit match {
+		  case "day" => 	Ok(views.html.trades("Bitstamp live trades",DBInteraction.allTransactions(effectNum,"day").toString,DBInteraction.getMA(effectNum,"day").toString))
+		  case "minute" => 	Ok(views.html.trades("Bitstamp live trades",DBInteraction.allTransactions(effectNum,"minute").toString,DBInteraction.getMA(effectNum,"minute").toString))
+		  case _ => 	Ok(views.html.trades("Bitstamp live trades",DBInteraction.allTransactions(effectNum,"hour").toString,DBInteraction.getMA(effectNum,"hour").toString))
+		}
 	}
-
-
-	val pusher = Pusher()
+	
+	
 	println("Application started")
 
 

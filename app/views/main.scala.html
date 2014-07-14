@@ -1,4 +1,4 @@
-@(title: String)(jumbotron:Html)(menu:Html)(content: Html)
+@(title: String)(menu:Html)(content: Html)
 
 <!DOCTYPE html>
 
@@ -10,6 +10,11 @@
 	<link rel="shortcut icon" type="image/png" href="@routes.Assets.at("images/favicon.png")">
 	<script src="@routes.Assets.at("javascripts/main.js")" type="text/javascript"></script>
 	<script src="@routes.Assets.at("javascripts/pusher.min.js")" type="text/javascript"></script>
+	<script src="@routes.Assets.at("javascripts/jquery.min.js")"1></script>
+	<script src="@routes.Assets.at("javascripts/bootstrap.min.js")"></script>
+	<script src="@routes.Assets.at("javascripts/jquery.flot.min.js")"></script>
+	<script src="@routes.Assets.at("javascripts/jquery.flot.time.min.js")"></script>
+	
 </head>
 <body role="document">
 
@@ -35,17 +40,11 @@
 
 	<div class="container" role="main">
 
-		<!-- Main jumbotron for a primary marketing message or call to action -->
-		<div class="jumbotron">
-			@jumbotron
-		</div>
 
 	</div> <!-- /container -->
 	<div class="container">
 		@content
 	</div>
 
-	<script src="@routes.Assets.at("javascripts/jquery.min.js")"1></script>
-	<script src="@routes.Assets.at("javascripts/bootstrap.min.js")"></script>
 </body>
 </html>

@@ -6,7 +6,10 @@
 GET     /                           controllers.Application.index
 
 # Trades
-GET     /trades                          controllers.Application.trades
+GET     /trades			                     controllers.Application.trades(unit = "hour",num:Int=1)
+GET     /trades/:unit                         controllers.Application.trades(unit,num:Int=0)
+GET     /trades/:unit/:num                         controllers.Application.trades(unit,num:Int)
+
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)
